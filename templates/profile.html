@@ -1,0 +1,243 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static '../static/css/profile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header>
+        <img src="{{ user.background_picture.url }}" class="background-image" alt="">
+        <img src="{{ user.profile_picture.url }}" class="profile-picture" alt="" srcset="">
+    </header>
+    <div class="sections">
+        <section class="infos">
+            <div class="info">
+                <h2>First Name</h2>
+                                <form action="{% url 'user_profile' user.id user.id %}" method="post" id="first-name-form">
+                    {% csrf_token %}
+                <h3 id="firstnameText">{{ user.firstname }}</h3>
+                                    {% if user.id == visited %}
+                <i class="firstname fa-regular fa-pen-to-square" onclick="editField('firstname')"></i>
+                <input type="text" id="firstnameField" data-editing="false" class="field" name="firstname">
+                                    <i class="fa-solid fa-xmark" style="display: none;transform: translateX(-10px)"></i>
+                                    <i class="firstname fa-solid fa-paper-plane" style="display: none" ></i>
+                                    {% endif %}
+                                </form>
+            </div>
+            
+            <div class="info">
+                <h2>Last Name</h2>
+                <form action="{% url 'user_profile' user.id user.id %}" method="post" id="last-name-form">
+                    {% csrf_token %}
+                <h3 id="lastnameText">{{ user.lastname }}</h3>
+                    {% if user.id == visited %}
+                              <i class="lastname fa-regular fa-pen-to-square" onclick="editField('lastname')"></i>
+                <input type="text" id="lastnameField" data-editing="false" class="field" name="lastname">
+                    <i class="fa-solid fa-xmark" style="display: none;transform: translateX(-10px)"></i>
+                                                    <i class="lastname fa-solid fa-paper-plane" onclick="editField('lastname')" style="display: none"></i>
+                    {% endif %}
+                                                </form>
+            </div>
+            <div class="info">
+                <form action="{% url 'user_profile' user.id user.id %}" method="post" id="email-form">
+                    {% csrf_token %}
+                     {% if user.id == visited %}
+                <h2>Email</h2>
+                <h3 id="emailText">{{ user.email }}</h3>
+                    <i class="email fa-regular fa-pen-to-square" onclick="editField('email')"></i>
+                <input type="text" data-editing="false" id="emailField" name="email" style="display: none">
+                    <i class="fa-solid fa-xmark" style="display: none;transform: translateX(-10px)"></i>
+                    <i class="email fa-solid fa-paper-plane" style="display: none"></i>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="info">
+                                <form action="{% url 'user_profile' user.id user.id %}" method="post" id="phone-form">
+                    {% csrf_token %}
+                <h2>Phone Number</h2>
+                <h3 id="phoneText">{{ user.phone }}</h3>
+                                     {% if user.id == visited %}
+                                    <i class="phone fa-regular fa-pen-to-square" onclick="editField('phone')"></i>
+                <input id="phoneField" type="text" data-editing="false" class="field" name="phone">
+                                    <i class="fa-solid fa-xmark" style="display: none;transform: translateX(-10px)"></i>
+                                    <i class="phone fa-solid fa-paper-plane" style="display: none"></i>
+                                    {% endif %}
+                                </form>
+            </div>
+            <div id="error-message"></div>
+            <h2>Birthday</h2>
+            <h3>{{ user.birthday }}</h3>
+            <h2> Friends</h2>
+            <h3>{{ user.friends.count }}</h3>
+        {% if user.id == visited %}
+            <div class="set">
+                <label for="profile-picture"><i class="fa-solid fa-circle-user"></i></label>
+                <input type='file' id="profile-picture" name="ProfilePicture" class="set-profile-picture" accept=".png,.jpg,.jpeg">
+                <label for="background-picture"><i class="fa-solid fa-images"></i></label>
+                <input type="file" id="background-picture" name="BackgroundPicture" class="set-background-image" accept=".png,.jpg,.jpeg">
+            </div>
+        {% endif %}
+        </section>
+        <section class="home-center">
+            {% for post in posts %}
+            <div class="post">
+                    <div class="post-header">
+                    <img src="{{ post.user.profile_picture.url }}" alt="">
+                    <h4>{{ post.user.firstname }} {{ post.user.lastname }}</h4>
+                    <div class="post-info">
+                        <h5>{{ post.date|timesince }}</h5>
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="likes">{{ post.likes }}</span>
+                </div>
+                {% if post.image %}
+                <div class="post-content">
+                    <img src="{{ post.image.url }}" alt="" srcset="">
+                </div>
+                <div class="post-footer">
+                    <p>{{ post.content }}</p>
+            </div>
+                {% else %}
+                <div class="post-no-image-content">
+                    {{ post.content }}
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        </section>
+        <section class="friends">
+            <h1>Friends</h1>
+            {% if friends %}
+            {% for friend in friends %}
+            <a href="{% url 'user_profile' friend.id user.id %}"><img src="{{ friend.profile_picture.url }}"></a>
+            {% endfor %}
+        {% endif %}
+        </section>
+    </div>
+</body>
+<script>
+ function editField(fieldName) {
+        var textElement = document.getElementById(fieldName + 'Text');
+        var inputElement = document.getElementById(fieldName + 'Field');
+        var submitIcon = document.querySelector('.' + fieldName + '.fa-solid.fa-paper-plane');
+        var editIcon = document.querySelector('.' + fieldName + '.fa-regular.fa-pen-to-square');
+        var cancelIcon=submitIcon.previousElementSibling;
+        cancelIcon.style.display='inline';
+        textElement.style.display = 'none';
+        inputElement.style.display = 'inline';
+        submitIcon.style.display = 'inline';
+        editIcon.style.display = 'none';
+        console.log(textElement.textContent)
+        inputElement.value = textElement.textContent;
+        inputElement.focus();
+        submitIcon.addEventListener('click',function(){submitField(fieldName)})
+        cancelIcon.addEventListener(
+            'click',_=>{
+                submitIcon.style.display='none';
+                cancelIcon.style.display='none';
+                inputElement.style.display='none';
+                textElement.style.display='inline';
+                editIcon.style.display='inline';
+            }
+        )
+    }
+
+    function submitField(fieldName) {
+         inputElement = document.getElementById(fieldName + 'Field');
+         textElement=document.getElementById(fieldName+'Text');
+        var inputValue = inputElement.value.trim();
+
+        // Send AJAX request to the server
+        fetch("", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ fieldName: fieldName,
+            value:inputValue})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                var textElement = document.getElementById(fieldName + 'Text');
+                var submitIcon = document.querySelector('.' + fieldName + '.fa-solid.fa-paper-plane');
+                var editIcon = document.querySelector('.' + fieldName + '.fa-regular.fa-pen-to-square');
+                inputElement.style.display = 'none';
+                textElement.textContent=inputValue;
+                textElement.style.display='inline';
+                submitIcon.style.display = 'none';
+                editIcon.style.display = 'inline';
+            } else {
+                window.alert(data.message)
+                console.log(data)
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+  document.querySelectorAll('.set input[type=file]').forEach(input => {
+    input.addEventListener('change', function(event) {
+        var formData = new FormData();
+        var pictureType = this.name; // Get the name of the input field (ProfilePicture or BackgroundPicture)
+        var imageFile = this.files[0];
+        
+        formData.append('pictureType', pictureType);
+        formData.append('imageFile', imageFile);
+        
+        fetch("", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response accordingly
+            console.log(data)
+            if(data.type==="profile"){
+                img=document.querySelector('.profile-picture')
+                console.log(img)
+            }else{
+                img=document.querySelector('.background-image')
+                img.src=data.url
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+
+
+</script>
+
+</html>

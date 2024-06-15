@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static '../static/css/chat.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+ <header>
+        <a href=""><img src="{% static '../static/images/game.png' %}" alt="" srcset=""></a>
+        <h3>Group Chat</h3>
+ </header>
+ <section>
+        <ul class="contact">
+            {% for chat in chats %}
+            <li class="room" tabindex="0" data-group-id="{{ chat.id }}">
+                    {%  if chat.group_name == '__' %}
+                        {% for send in chat.members.all %}
+                        {% if send != user %}
+                <img src="{{ send.profile_picture.url }}" alt="">
+                <div class="info">
+                    <h5 class="room-name">{{ send.firstname }} {{ send.lastname }}</h5>
+                            {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        <h5 class="room-name">{{ chat.group_name }}</h5>
+                    {% endif %}
+                    <span class="notification"></span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+       <div class="message-section">
+            <div class="active">
+                <img src="" alt="" srcset="">
+                <h3>User Name</h3>
+            </div>
+            <div class="messages">
+                <h1>Add A text </h1>
+            </div>
+           <input type="text" name="" id="text" placeholder="send the message" data-sender-id="{{ user.id }}">
+            <button type="button" class="send-message"><i class="fa-regular fa-paper-plane"></i></button>
+       </div>
+ </section>
+<script>
+    console.log("Amine");
+    const rooms=document.querySelectorAll('.room');
+    const chatSocket=new WebSocket('ws://'+window.location.host+'/ws/chatroom/0/');
+    function HandleRoom(room){
+     rooms.forEach(room=>room.style.backgroundColor='#f67280');
+     room.style.backgroundColor='red';
+     const roomName=room.querySelector('.room-name').textContent;
+     const activeUser=document.querySelector('.active h3');
+     const image=document.querySelector('.active img');
+     image.src=room.getElementsByTagName('img').item(0).src
+     activeUser.textContent=roomName;
+     const groupId=room.dataset.groupId;
+     chatSocket.url='ws://'+window.location.host+'/ws/chatroom/'+groupId+'/';
+     chatSocket.send(JSON.stringify({
+         'command':'fetch_messages',
+     }));
+     chatSocket.onmessage=event=>{
+         data=JSON.parse(event.data);
+         console.log(data);
+         const userId=text.dataset.senderId;
+         if(data['type']==='fetch_messages'){
+         messages=data['messages'];
+         if (messages!==null){
+             for(i=0;i<messages.length;i++){
+                 console.log('user'+userId);
+                 console.log('sender'+messages[i]['author']);
+                 var types=messages[i]['author']==userId?'send':'recieve';
+                 console.log(messages[i]['url']);
+                 SendTemplate(messages[i]['message'],types,messages[i]['url'],messages[i]['time']);
+             }
+         }
+     }}
+    }
+    rooms.forEach(room=>{
+        room.addEventListener('click',()=>{
+            cont=document.getElementsByClassName('messages').item(0);
+            cont.innerHTML='';
+            HandleRoom(room);
+        });
+    });
+    const btn=document.getElementsByClassName('send-message').item(0);
+    const text=document.getElementById('text');
+    btn.addEventListener('click',_=>{
+        if(text.value!=''){
+        const userId=text.dataset.senderId;
+        chatSocket.send(JSON.stringify({
+            'command':'chat_message',
+            'sender':userId,
+            'message':text.value
+        }));
+        chatSocket.onmessage=event=>{
+            data=JSON.parse(event.data);
+            console.log(data)
+            var types='';
+            if(data['type']==='chat_message')types=data['sender']==userId?'send':'recieve';
+            SendTemplate(data['message'],types);
+            if(data['sender']==userId)text.value='';
+        }
+    }});
+    function SendTemplate(text_message,type,url,time){
+        message = document.createElement('li');
+        message.classList.add(type);
+        img = document.createElement('img')
+        img.src = url;
+        messageText = document.createElement('p')
+        messageText.textContent = text_message;
+        message.appendChild(img);
+        message.appendChild(messageText);
+        cont = document.getElementsByClassName('messages').item(0);
+        cont.appendChild(message);
+    }
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static '../static/css/login.css'%}">
+    <!--<script defer src="{% static '../static/js/login.js'%}"></script>-->
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="row1">
+        <section>
+            <h1>Login</h1>
+            <form action="{% url 'login'%}" method="post">
+                {% csrf_token %}
+            <div class="user-name">
+                <input type="email" required id="email" name="email" placeholder="Enter your email">
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="password">
+                <input type="password" required id="pwd" name="password" placeholder="Enter your password">
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+
+            <div class="check-field">
+                <div class="check">
+                    <input type="checkbox" name="RememberMe" id="remember-me">
+                    <label for="#remember-me">Remember me</label>
+                </div>
+                <a href="">Forget Password</a>
+            </div>
+            <input type="submit" id="submit" value="Login" name="Login">
+            </form>
+            <div class="question-bar">
+                <p>Dont Have an account ? </p>
+                <a href="">Register</a>
+            </div>
+        </section>
+    </div>
+    <section class="row-2">
+        <div class="waves">
+            <div class="wave1 wave"></div>
+            <div class="wave2 wave"></div>
+            <div class="wave3 wave"></div>
+            <div class="wave4 wave"></div>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,270 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: #d1deec;
+    height: 100vh;
+}
+
+header {
+    width: 99.9%;
+    margin-bottom: 50px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+.background-image {
+    width: 100%;
+    height: 40vh;
+    position: relative;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 5px 0px 5px 2px black;
+}
+.post{
+    transform: translateX(-50px);
+}
+.profile-picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: absolute;
+    left: 30px;
+    top: 90px;
+    padding: 5px;
+    background-color: aliceblue;
+}
+
+.sections {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+.post-header {
+    background-color: #fff;
+    padding: 15px;
+    display: flex;
+    width: 90%;
+    border-radius: 50px;
+    margin-top: 10px;
+}
+
+.post-header h4 {
+    margin-left: 30px;
+}
+
+.post-header .post-info {
+    position: relative;
+    top: 20px;
+    right: 60px;
+    display: flex;
+    margin-top: 5px;
+}
+
+.post-header .post-info i {
+    margin-left: 10px;
+}
+
+.post-header>i {
+    position: relative;
+    left: 55%;
+    top: 10px;
+    font-size: 20px;
+}
+
+.post-header img {
+    width: 50px;
+    border-radius: 50px;
+    margin-left: 10px;
+}
+
+.post-content img {
+    width: 90%;
+    border-radius: 40px;
+    margin-top: 10px;
+}
+
+.post-footer {
+    background-color: #fff;
+    width: 85%;
+    padding: 30px;
+    border-radius: 40px;
+    margin-top: 10px;
+    text-wrap: wrap;
+    border: solid #998a8a;
+
+}
+.post-no-image {
+    margin-top: 10px;
+    background-color: #fff;
+    width: 90%;
+    border-radius: 40px;
+    border: #998a8a solid;
+}
+.post-image{
+    margin-top: 10px;
+    background-color: #fff;
+    width: 90%;
+    border-radius: 40px;
+    border: #998a8a solid;
+}
+
+
+.post-no-image-header {
+    padding: 15px;
+    display: flex;
+    width: 70%;
+    border-radius: 50px;
+    margin-top: 5px;
+}
+
+.post-no-image-header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.post-no-image-header h4 {
+    margin-left: 40px;
+}
+
+.post-no-image-info {
+    position: relative;
+    top: 20px;
+    right: 80px;
+    display: flex;
+    margin-top: 5px;
+
+
+}
+
+.post-no-image-info i {
+    margin-left: 20px;
+}
+.post-no-image-info h5{
+    transform:translateX(-90px);
+    margin-right: 10px;
+}
+
+.post-no-image .fa-heart {
+    transform: translate(200px, 20px);
+    font-size: 20px;
+}
+.post-no-image .fa-users{
+    transform: translateX(-100px);
+}
+
+.post-no-image-content:before {
+    content: '';
+    width: 100%;
+    background-color: #998a8a;
+    height: 0.5px;
+    display: block;
+    transform: translateY(-30px);
+}
+
+.infos {
+
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    background-color: #fff;
+    height: 80vh;
+    padding: 30px;
+    transform: translate(10px, 50px);
+    justify-content: space-between;
+    margin-right: 50px;
+    position: sticky;
+    top: 10px;
+    border-radius: 40px;
+    box-shadow: 0px 10px 15px black;
+}
+
+.info h3 {
+    margin-bottom: 5px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.set {
+    display: flex;
+    justify-content: space-between;
+}
+
+.set label {
+    display: inline-flex;
+    padding: 20px;
+    background-color: #fff;
+    border: solid 1px #ac20e6;
+    width: 90px;
+    border-radius: 40px;
+    box-shadow: 5px 5px 10px #ac20e6;
+    justify-content: center;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.friends img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: crimson;
+}
+
+.friends {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: repeat(3, 100px);
+    gap: 10px;
+    transform: translate(-20px, 50px);
+}
+
+.friends h1 {
+    position: absolute;
+    transform: translateY(-50px);
+}
+
+.field {
+    display: none;
+    padding: 10px;
+    border-radius: 40px;
+    outline: none;
+    border: none;
+}
+
+.field:focus {
+    box-shadow: 0px 0px 10px black;
+}
+.infos h2 {
+    font-family: 'Lucida Grande', Arial, sans-serif;
+    text-indent: 15px;
+    color: #00ffab;
+}
+.home-center{
+    width: 50%;
+}
+.post-info{
+    transform: translateX(-90px);
+}
+.fa-heart{
+    transform: translateX(-150px);
+}
+.likes{
+    position: relative;
+    left: 150px;
+    top: 10px;
+    font-size: 16px;
+}
+.post-no-image-content{
+    background-color: #fff;
+    padding: 30px;
+    width: 85%;
+    border-radius: 50px;
+}

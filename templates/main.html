@@ -1,0 +1,141 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!--Appelons les fichiers CSS -->
+    <link rel="stylesheet" href="{% static '../static/css/style.css'%}">
+    <!-- Applenos les icons de font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <!--    Entete    -->
+    <header>
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="logo-box-1">
+                    <img src="{% static '../static/images/game.png'%}" alt="">
+                </div>
+                <div class="search-box" >
+                    <form action="{%  url 'searchfriends' %}" method="GET" id="search">
+                    <input type="search" id='search-friends' name="search-friends">
+                    <i class="fas fa-search"></i>
+                    </form>
+                </div>
+                <script src="{% static '../static/js/search.js' %}"></script>
+                <div class="icon-box-1">
+                    <a href="{% url 'user_profile' user.id user.id %}"><i class="fa-solid fa-house"></i>
+                    <a href="{% url 'friends_box' user.id %}"><i class="fa-solid fa-user-group"></i></a>
+                    {% if reqs != 0 %}
+                    <span class="frd-req">{{ reqs }}</span>
+                    {% endif %}
+                        <a href="{% url 'create_post' 1 %}"><i class="fa-solid fa-circle-plus"></i></a>
+                </div>
+                <div class="icon-box-2">
+                    <a href="{% url 'chat' %}">
+                    <i class="fa-solid fa-bell"></i></a>
+                    <label><img src="" alt=""></label>
+                    <i class="fa-solid fa-caret-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- sidesection-->
+    <aside class="home">
+        <div class="container">
+            <div class="home-wrapper">
+                <div class="home-left">
+                    <div class="profile">
+                        <img src="{{ user.profile_picture.url }}" alt="">
+                        <h3>{{user.firstname}} {{user.lastname}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!-- Home -->
+    <section class="home-center">
+        <div class="home-center-wrapper">
+            <div class="create-post">
+                <h3 class="mini-heading">Create Post
+                </h3>
+                <div class="post-text">
+                    <form method="post" action="{%  url 'post' %}" id="post">
+                        {% csrf_token %}
+                    <img src="{{ user.profile_picture.url }}" alt="">
+                    <input type="text-area" placeholder="Que Pensez Vous {{user.firstname}}? " class="text-area"name="text-area">
+                   <i class="fa-regular fa-paper-plane create" ></i>
+                </form>
+                </div>
+<script  src="{% static '../static/js/post.js'%}"></script>
+            </div>
+            <div class="post">
+                <h1>Posts</h1>
+                {% for post in posts %}
+                    {% if post.image %}
+                    <div class="post-header">
+                    <img src="{{ post.user.profile_picture.url }}" alt="">
+                    <h4>{{ post.user.firstname }} {{ post.user.lastname }}</h4>
+                    <div class="post-info">
+                        <h5>{{ post.date|timesince }}</h5>
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <i class="fa-regular fa-heart" data-post-id="{{ post.id }}"></i>
+                    <span class="likes">{{ post.likes }}</span>
+                </div>
+                <div class="post-content">
+                    <img src="{{ post.image.url }}" alt="" srcset="">
+                </div>
+                <div class="post-footer">
+                    <p>{{ post.content }}</p>
+            </div>
+                    {% else %}
+                    <div class="post-no-image">
+                    <div class="post-no-image-header">
+                        <img src="{{ post.user.profile_picture.url }}" alt="">
+                        <h4>{{ post.user.firstname }} {{ post.user.lastname }}</h4>
+                        <div class="post-no-image-info">
+                            <h5>{{ post.date|timesince }}</h5>
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <i class="fa-regular fa-heart" data-post-id="{{ post.id }}"></i>
+                        <span class="likes" >{{ post.likes }}</span>
+                    </div>
+                    <div class="post-no-image-content">{{ post.content }}</div>
+                </div>
+                    {% endif %}
+                    <span class="line"></span>
+                {% endfor %}
+            <script src="{% static '../static/js/like.js' %}">
+            </script>
+        </div>
+    </section>
+    <!-- Chats -->
+    <aside class="chat">
+        <h1>Chat</h1>
+        {% if friends %}
+        <div class="chats">
+        {% for friend in friends %}
+            <a href=""><img src="{{ friend.profile_picture.url }}" alt="">
+                <label for="">{{ friend.firstname }} {{ friend.lastname }}</label>
+            </a>
+            {% endfor %}
+        {% else%}
+        <label>No Friends</label>
+        </div>
+    {% endif %}
+    </aside>
+
+
+</body>
+
+</html>

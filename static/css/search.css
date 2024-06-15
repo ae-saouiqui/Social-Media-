@@ -1,0 +1,145 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    outline: none;
+    box-sizing: content-box;
+}
+
+body {
+    background-color: #d1deec;
+    width: 100%;
+}
+
+header {
+    width: 100%;
+    height: 100px;
+    background-color: #fff;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 50px;
+}
+
+.logo {
+    margin-left: 10px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+}
+
+.heading {
+    display: inline-block;
+    margin-left: 350px;
+    transform: translateY(-25px);
+}
+
+.card {
+    width: 350px;
+    height: 300px;
+    display: grid;
+    grid-template-rows: 200px 100px;
+    background-color: #fff;
+    border-radius: 40px;
+    position: relative;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+
+.higher {
+
+    border-radius: 40px 40px 0px 0px;
+    transition: 0.4s;
+    filter: grayscale(1)
+}
+
+.higher:hover {
+    filter: none;
+}
+
+h3 {
+    transform: translate(5%, 90%);
+}
+
+.birthday {
+    margin-top: 30px;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+
+.friends {
+    margin-top: 5px;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+i {
+    margin-right: 10px;
+}
+
+.profile-container {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: aliceblue;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 120px;
+}
+
+.profile-container img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50px;
+}
+
+.add,.added{
+    position: relative;
+    bottom: 30px;
+    left: 85%;
+    font-size: 25px;
+}
+.added{
+    color: #0b5ed7;
+}
+.add:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.custom-shape-divider-top-1714673684 {
+    position: absolute;
+    top: 120px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1714673684 svg {
+    position: relative;
+    display: block;
+    height: 80px;
+    width: 100%;
+}
+
+.custom-shape-divider-top-1714673684 .shape-fill {
+    fill: #FFFFFF;
+}
+.fa-user-check{
+    color: blue;
+}

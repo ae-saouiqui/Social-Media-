@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static '../static/css/search.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Title</title>
+</head>
+
+<body>
+    <header>
+        <img src="" alt="" class="logo">
+        {% if sname %}
+        <h1 class="heading"><i class="fa-brands fa-searchengin"></i> Result For {{ fname }} {{ sname }} </h1>
+        {% else %}
+         <h1 class="heading"><i class="fa-brands fa-searchengin"></i> Result For {{ fname }} </h1>
+        {% endif %}
+    </header>
+    <div class="custom-shape-divider-top-1714673684">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path
+                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                class="shape-fill"></path>
+        </svg>
+    </div>
+    <section>
+    {% if users  %}
+            {% for user in users %}
+                {% if user.id != sender.id %}
+        <form action="{% url 'request' %}" method="post">
+        {% csrf_token %}
+            <div class="card">
+                <div class="higher">
+                    <img src="">
+                </div>
+                <div class="lower">
+                    <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+                    <p class="birthday"><i class="fa-solid fa-cake-candles"></i>{{user.birthday}}</p>
+                    <p class="friends"><i class="fa-solid fa-user-group"></i>{{ user.friends.count }} friends
+                    </p>
+                    <input type="hidden" name="sender" value="{{sender.id}}">
+                    <input type="hidden" name="receiver" value="{{ user.id }}">
+                    <input type="hidden" name="fname" value="{{ fname }}">
+                    <input type="hidden" name="sname" value="{{ sname }}">
+                 {% if user.id in friends %}
+                     <i class="fa-solid fa-circle-check added"></i>
+                     {% else %}
+                      {% if user.id in receivers %}
+                    <input type="hidden" name="req" value="send">
+                    <i class="fa-solid fa-user-check add"></i>
+                    {% else %}
+                        <input type="hidden" name="req" value="decline">
+                    <i class="fa-solid fa-user-plus add"></i>
+                    {% endif %}
+                     {% endif %}
+                </div>
+                <div class="profile-container"><img src=></div>
+            </div>
+        </form>
+        <script src="{% static '../static/js/request.js' %}"></script>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+        <i class="fa-solid fa-ban" style="font-size: 100px;transform: translate(20%,40%);display: block"></i>
+        <h1 style="font-size: 40px;position: absolute;right: 38%;top: 50%">No user founded</h1>
+    {% endif %}
+    </section>
+</body>
+
+</html>
